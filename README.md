@@ -59,3 +59,7 @@ python3 codex_team_oauth.py
 - 该脚本仅用于示例和测试，切勿分享 `.env` 中的真实凭据。
 - 不要附带 `/tmp/codex_token_*.json` 或其他敏感输出文件。
 - `TEST_INBOX_API` 需要指向可用的 OTP 邮件服务接口。
+
+## 友情链接
+
+- [LINUX DO - 新的理想型社区](https://linux.do/)
