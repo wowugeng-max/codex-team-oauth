@@ -427,11 +427,24 @@ def main():
         print(str(exc))
         return 1
 
+    failed_runs = 0
     for run_index in range(1, run_count + 1):
-        run_once(run_index=run_index, run_count=run_count)
+        try:
+            run_once(run_index=run_index, run_count=run_count)
+        except SystemExit as exc:
+            exit_code = exc.code if isinstance(exc.code, int) else 1
+            if exit_code:
+                failed_runs += 1
+                print("Run " + str(run_index) + "/" + str(run_count) + " failed: exit code " + str(exit_code))
+        except Exception as exc:  # noqa: BLE001
+            failed_runs += 1
+            print("Run " + str(run_index) + "/" + str(run_count) + " failed: " + str(exc))
 
     if run_count > 1:
         print("\n=== ALL RUNS DONE ===")
+    if failed_runs:
+        print("Failed runs: " + str(failed_runs) + "/" + str(run_count))
+        return 1
     return 0
 
 
