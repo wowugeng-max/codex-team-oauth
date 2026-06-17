@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Codex Team OAuth</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <h1>Codex Team OAuth</h1>
+          <p id="statusText">Idle</p>
+        </div>
+        <div class="status-pill" id="statusPill" data-state="idle">
+          <span></span>
+          <strong id="statusLabel">Idle</strong>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <form class="settings-panel" id="configForm">
+          <div class="panel-head">
+            <h2>Configuration</h2>
+            <button type="button" class="secondary" id="saveButton">Save</button>
+          </div>
+
+          <label>
+            <span>Mail Provider</span>
+            <select data-field="MAIL_PROVIDER">
+              <option value="cloudmail">cloudmail</option>
+              <option value="inbuck">inbuck</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Run Count</span>
+            <input data-field="RUN_COUNT" id="runCountInput" type="number" min="1" step="1">
+          </label>
+
+          <div class="section-title">Cloud Mail</div>
+          <label>
+            <span>API Base</span>
+            <input data-field="CLOUDMAIL_API_BASE" autocomplete="off">
+          </label>
+          <label>
+            <span>Admin Email</span>
+            <input data-field="CLOUDMAIL_ADMIN_EMAIL" autocomplete="off">
+          </label>
+          <label>
+            <span>Admin Password</span>
+            <input data-field="CLOUDMAIL_ADMIN_PASSWORD" type="password" autocomplete="off">
+          </label>
+          <label>
+            <span>Domain Suffix</span>
+            <input data-field="CLOUDMAIL_DOMAIN_SUFFIX" autocomplete="off">
+          </label>
+          <label>
+            <span>Role Name</span>
+            <input data-field="CLOUDMAIL_ROLE_NAME" autocomplete="off">
+          </label>
+          <label>
+            <span>Proxy</span>
+            <input data-field="CLOUDMAIL_PROXY" autocomplete="off">
+          </label>
+
+          <div class="section-title">inbuck</div>
+          <label>
+            <span>Test Email</span>
+            <input data-field="TEST_EMAIL" autocomplete="off">
+          </label>
+          <label>
+            <span>Test Password</span>
+            <input data-field="TEST_PASSWORD" type="password" autocomplete="off">
+          </label>
+          <label>
+            <span>Inbox API</span>
+            <input data-field="TEST_INBOX_API" autocomplete="off">
+          </label>
+        </form>
+
+        <section class="run-panel">
+          <div class="panel-head">
+            <h2>Run</h2>
+            <div class="actions">
+              <button type="button" class="primary" id="startButton">Start</button>
+              <button type="button" class="danger" id="stopButton">Stop</button>
+              <button type="button" class="secondary" id="resetLogButton">Reset Log</button>
+            </div>
+          </div>
+
+          <div class="metrics">
+            <div>
+              <span>Started</span>
+              <strong id="startedAt">-</strong>
+            </div>
+            <div>
+              <span>Stopped</span>
+              <strong id="stoppedAt">-</strong>
+            </div>
+            <div>
+              <span>Exit Code</span>
+              <strong id="exitCode">-</strong>
+            </div>
+          </div>
+
+          <pre id="logOutput" aria-label="Log output"></pre>
+        </section>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

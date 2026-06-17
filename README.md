@@ -13,6 +13,9 @@
 - `oauth_steps.py`
 - `registration_identity.py`
 - `token_output.py`
+- `ui_server.py`
+- `ui_static/`
+- `start_ui_mac.command`
 - `deps/__init__.py`
 - `deps/sentinel.py`
 - `deps/sentinel_quickjs.py`
@@ -78,6 +81,26 @@ TEST_INBOX_API=http://your-mailbox-service.example/api/v1
 `CLIENT_ID` 和 `CODEX_REDIRECT_URI` 已固定在脚本中，无需在 `.env` 中配置。
 
 ## 运行方式
+
+### Web UI
+
+启动本地 UI：
+
+```bash
+python3 ui_server.py
+```
+
+打开 `http://127.0.0.1:8765`，可以在页面里配置 `.env`、保存配置、指定 `RUN_COUNT`、启动/停止任务，并重置当前 UI 日志。
+
+macOS 下也可以直接双击项目目录里的 `start_ui_mac.command` 启动 UI。终端窗口保持打开时服务运行，关闭窗口或按 `Ctrl+C` 会停止 UI 服务。
+
+如需指定端口：
+
+```bash
+python3 ui_server.py --port 8788
+```
+
+### 命令行
 
 ```bash
 python3 codex_team_oauth.py
