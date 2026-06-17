@@ -9,6 +9,10 @@
 ## 需要分享的文件
 
 - `codex_team_oauth.py`
+- `mail_providers.py`
+- `oauth_steps.py`
+- `registration_identity.py`
+- `token_output.py`
 - `deps/__init__.py`
 - `deps/sentinel.py`
 - `deps/sentinel_quickjs.py`
@@ -40,9 +44,36 @@ cp .env.example .env
 
 编辑 `.env`，将以下变量替换为真实值：
 
-- `TEST_EMAIL`
-- `TEST_PASSWORD`
-- `TEST_INBOX_API`  inbuck 邮箱地址
+- `MAIL_PROVIDER`：邮箱链路，可选 `cloudmail` 或 `inbuck`
+- `RUN_COUNT`：执行次数，默认 `1`；配置为正整数时会连续执行多轮完整注册流程
+
+### Cloud Mail 链路
+
+参考 [cloudmailmanual](https://github.com/wowugeng-max/cloudmailmanual) 的 Cloud Mail 公共 API 调用方式。Cloud Mail 链路会自动创建邮箱地址、生成邮箱密码，并用参考项目的资料生成逻辑创建姓名和生日；不需要配置 `TEST_EMAIL` / `TEST_PASSWORD`。
+
+```env
+MAIL_PROVIDER=cloudmail
+RUN_COUNT=1
+CLOUDMAIL_API_BASE=https://your-cloudmail-api.example
+CLOUDMAIL_ADMIN_EMAIL=admin@example.com
+CLOUDMAIL_ADMIN_PASSWORD=your_admin_password
+CLOUDMAIL_DOMAIN_SUFFIX=mx.example.com
+CLOUDMAIL_ROLE_NAME=
+CLOUDMAIL_PROXY=
+```
+
+脚本会通过 `genToken` 获取管理员 token，通过 `addUser` 创建 `本地名@CLOUDMAIL_DOMAIN_SUFFIX` 邮箱，再用 `emailList` 查询该邮箱验证码。`CLOUDMAIL_ROLE_NAME` 和 `CLOUDMAIL_PROXY` 可留空。
+
+### inbuck 链路
+
+inbuck 是旧链路，需要手动提供注册邮箱、OpenAI 注册密码和 OTP 邮件服务接口：
+
+```env
+MAIL_PROVIDER=inbuck
+TEST_EMAIL=your-test-email@example.com
+TEST_PASSWORD=your-password
+TEST_INBOX_API=http://your-mailbox-service.example/api/v1
+```
 
 `CLIENT_ID` 和 `CODEX_REDIRECT_URI` 已固定在脚本中，无需在 `.env` 中配置。
 
@@ -54,11 +85,13 @@ python3 codex_team_oauth.py
 
 脚本会自动读取当前目录下的 `.env` 文件。
 
+OAuth token 交换成功后，脚本会保存到项目目录下的 `result/json/<邮箱地址>.json`，格式与 Codex 可用 token JSON 保持一致。
+
 ## 注意
 
 - 该脚本仅用于示例和测试，切勿分享 `.env` 中的真实凭据。
-- 不要附带 `/tmp/codex_token_*.json` 或其他敏感输出文件。
-- `TEST_INBOX_API` 需要指向可用的 OTP 邮件服务接口。
+- 不要分享项目目录下生成的 `result/json/<邮箱地址>.json` 或其他敏感输出文件。
+- Cloud Mail 链路需要 `CLOUDMAIL_API_BASE`、`CLOUDMAIL_ADMIN_EMAIL`、`CLOUDMAIL_ADMIN_PASSWORD`、`CLOUDMAIL_DOMAIN_SUFFIX`；inbuck 链路需要 `TEST_EMAIL`、`TEST_PASSWORD`、`TEST_INBOX_API`。
 
 ## 友情链接
 
